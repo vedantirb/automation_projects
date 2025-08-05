@@ -1,6 +1,8 @@
 import datetime
 import os
 import time
+import tempfile
+import shutil
 
 import pytest
 from pygments.lexer import default
@@ -14,6 +16,8 @@ from selenium.webdriver.chrome.options import Options
 def pytest_addoption(parser):
     parser.addoption("--browser_name", action="store", default="chrome", help="Define browser name to run")
 
+# Create a unique temporary directory for user data
+user_data_dir = tempfile.mkdtemp()
 
 @pytest.fixture(scope="function")
 def webDriver(request):
@@ -31,9 +35,12 @@ def webDriver(request):
     option.add_argument("--disable-popup-blocking")
     option.add_argument("--disable-notifications")
     option.add_argument("--disable-infobars")
+    option.add_argument(f"--user-data-dir={user_data_dir}")
     option.add_argument("--disable-blink-features=AutomationControlled")
     option.add_argument("--disable-features=PasswordLeakDetection")
     option.add_argument("--incognito")
+    option.add_argument("--no-sandbox")
+    option.add_argument("--disable-dev-shm-usage")
 
     if browser_name == "chrome":
         driver = webdriver.Chrome(options=option)
@@ -50,6 +57,8 @@ def webDriver(request):
     driver.maximize_window()
     yield driver
     driver.quit()
+    # Clean up the temporary user data directory
+    shutil.rmtree(user_data_dir, ignore_errors=True)
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
