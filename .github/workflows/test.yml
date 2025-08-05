@@ -26,7 +26,7 @@ jobs:
 
       - name: Clean up stale Chrome profiles
         run: rm -rf /tmp/selenium* /tmp/profile* /tmp/tmp*
-        
+
       - name: Run tests
         run: |
           pytest --browser_name chrome

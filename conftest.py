@@ -16,16 +16,18 @@ from selenium.webdriver.chrome.options import Options
 def pytest_addoption(parser):
     parser.addoption("--browser_name", action="store", default="chrome", help="Define browser name to run")
 
-# Create a unique temporary directory for user data
-user_data_dir = tempfile.mkdtemp()
+
 
 @pytest.fixture(scope="function")
 def webDriver(request):
+
     browser_name = request.config.getoption("--browser_name")
     print(f"browser_name selected:{browser_name}")
     driver = None
     option = Options()
-
+    # Create a unique temporary directory for user data
+    user_data_dir = tempfile.mkdtemp()
+    
     option.add_experimental_option("prefs", {
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False,
