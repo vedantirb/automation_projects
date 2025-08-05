@@ -27,7 +27,7 @@ def webDriver(request):
     option = Options()
     # Create a unique temporary directory for user data
     user_data_dir = tempfile.mkdtemp()
-    
+
     option.add_experimental_option("prefs", {
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False,
@@ -43,6 +43,7 @@ def webDriver(request):
     option.add_argument("--incognito")
     option.add_argument("--no-sandbox")
     option.add_argument("--disable-dev-shm-usage")
+    option.add_argument("--headless")
 
     if browser_name == "chrome":
         driver = webdriver.Chrome(options=option)
