@@ -29,4 +29,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --browser_name chrome --html=reports/report.html
+          pytest --browser_name chrome --html=report.html
