@@ -51,7 +51,6 @@ def test_end2end(webDriver, testData):
     #driver.execute_script("document.getElementById('okayBtn').click()")
     # driver.execute_script("document.querySelector('.modal').remove();")
 
-list1=[1,2,3]
 
 
 
