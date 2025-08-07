@@ -26,7 +26,7 @@ def webDriver(request):
     driver = None
     option = Options()
     # Create a unique temporary directory for user data
-    user_data_dir = tempfile.mkdtemp()
+    #user_data_dir = tempfile.mkdtemp()
 
     option.add_experimental_option("prefs", {
         "credentials_enable_service": False,
@@ -37,7 +37,7 @@ def webDriver(request):
     option.add_argument("--disable-popup-blocking")
     option.add_argument("--disable-notifications")
     option.add_argument("--disable-infobars")
-    option.add_argument(f"--user-data-dir={user_data_dir}")
+    #option.add_argument(f"--user-data-dir={user_data_dir}")
     option.add_argument("--disable-blink-features=AutomationControlled")
     option.add_argument("--disable-features=PasswordLeakDetection")
     option.add_argument("--incognito")
@@ -61,7 +61,7 @@ def webDriver(request):
     yield driver
     driver.quit()
     # Clean up the temporary user data directory
-    shutil.rmtree(user_data_dir, ignore_errors=True)
+    #shutil.rmtree(user_data_dir, ignore_errors=True)
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
