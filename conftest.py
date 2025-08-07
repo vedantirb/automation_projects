@@ -43,7 +43,7 @@ def webDriver(request):
     option.add_argument("--incognito")
     option.add_argument("--no-sandbox")
     option.add_argument("--disable-dev-shm-usage")
-    #option.add_argument("--headless")
+    option.add_argument("--headless")
 
     if browser_name == "chrome":
         driver = webdriver.Chrome(options=option)
