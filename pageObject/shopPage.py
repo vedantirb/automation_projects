@@ -11,7 +11,7 @@ class ShopPage(BrowserUtils):
         self.driver = driver
         self.shop_link = (By.CSS_SELECTOR, "a[href*='shop']")
         self.cart_checkout_btn = (By.CSS_SELECTOR, "a[class*='nav-link btn']")
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 20)
 
     def shop_link_action(self):
         self.driver.find_element(*self.shop_link).click()
