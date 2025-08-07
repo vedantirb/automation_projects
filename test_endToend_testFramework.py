@@ -42,7 +42,7 @@ def test_end2end(webDriver, testData):
     try:
         shopPg.cart_checkout()
     except Exception as e:
-        print(f"❌ Cart checkout failed: {e}")
+        print(f"Cart checkout failed: {e}")
         # Take manual screenshot for CI debugging
         driver.save_screenshot("./reports/checkout_failure.png")
         raise
