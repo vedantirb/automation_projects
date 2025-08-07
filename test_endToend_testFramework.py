@@ -29,10 +29,23 @@ def test_end2end(webDriver, testData):
 
     if "Incorrect" in loginPg.login_message():
         return None
+
     shopPg = ShopPage(driver)
+    print("Navigating to shop...")
     shopPg.shop_link_action()
+
+    print(f"Adding product: {testData['product_name']}")
     shopPg.add_product(testData["product_name"])
-    shopPg.cart_checkout()
+
+
+    print("Clicking on cart checkout button...")
+    try:
+        shopPg.cart_checkout()
+    except Exception as e:
+        print(f"❌ Cart checkout failed: {e}")
+        # Take manual screenshot for CI debugging
+        driver.save_screenshot("./reports/checkout_failure.png")
+        raise
 
     purchasePg = ProductPurchase(driver)
     purchasePg.checkout_action()
