@@ -13,7 +13,8 @@ class ShopPage(BrowserUtils):
         super().__init__(driver)
         self.driver = driver
         self.shop_link = (By.CSS_SELECTOR, "a[href*='shop']")
-        self.cart_checkout_btn = (By.CSS_SELECTOR, "a[class*='nav-link btn']")
+        #self.cart_checkout_btn = (By.CSS_SELECTOR, "a[class*='nav-link btn']") not working in CLI
+        self.cart_checkout_btn = (By.XPATH, "//a[contains(text(), 'Checkout')]")
         self.wait = WebDriverWait(self.driver, 20)
 
     def shop_link_action(self):
@@ -30,13 +31,9 @@ class ShopPage(BrowserUtils):
 
     def cart_checkout(self):
         print("🧾 Checking out cart...")
-        for attempt in range(3):
-            try:
-                self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
-                cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
-                cart_btn.click()
-                print("Cart checkout clicked.")
-                break
-            except TimeoutException:
-                print(f"Attempt {attempt+1}: Cart button not ready. Retrying...")
-                time.sleep(2)
+        element = self.driver.find_element(*self.cart_checkout_btn)
+        self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", element)
+        self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
+        cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
+        cart_btn.click()
+        print("Cart checkout clicked.")
