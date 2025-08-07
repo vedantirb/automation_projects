@@ -60,7 +60,7 @@ def webDriver(request):
     else:
         print(f"Invalid Driver name {browser_name}")
     driver.get("https://rahulshettyacademy.com/loginpagePractise/")
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
     driver.maximize_window()
     yield driver
     driver.quit()
