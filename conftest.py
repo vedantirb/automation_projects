@@ -15,13 +15,15 @@ from selenium.webdriver.chrome.options import Options
 
 def pytest_addoption(parser):
     parser.addoption("--browser_name", action="store", default="chrome", help="Define browser name to run")
-
+    parser.addoption("--headless", action="store_true", help="Run browser in headless mode (for CI)")
 
 
 @pytest.fixture(scope="function")
 def webDriver(request):
 
     browser_name = request.config.getoption("--browser_name")
+    headless = request.config.getoption("--headless")
+
     print(f"browser_name selected:{browser_name}")
     driver = None
     option = Options()
@@ -37,13 +39,15 @@ def webDriver(request):
     option.add_argument("--disable-popup-blocking")
     option.add_argument("--disable-notifications")
     option.add_argument("--disable-infobars")
+    option.add_argument("--disable-gpu")
     #option.add_argument(f"--user-data-dir={user_data_dir}")
     option.add_argument("--disable-blink-features=AutomationControlled")
     option.add_argument("--disable-features=PasswordLeakDetection")
     option.add_argument("--incognito")
     option.add_argument("--no-sandbox")
     option.add_argument("--disable-dev-shm-usage")
-    #option.add_argument("--headless")
+    if headless:
+        option.add_argument("--headless")
 
     if browser_name == "chrome":
         driver = webdriver.Chrome(options=option)
@@ -77,31 +81,4 @@ def pytest_runtest_makereport(item, call):
                 rep.extra.append(extras.image(screenshot_base64, mime_type="image/png"))
             else:
                 rep.extra = [extras.image(screenshot_base64, mime_type="image/png")]
-
-'''
-save screenshot with in project screenshot dir
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-
-    if rep.when == "call" and rep.failed:
-        driver = item.funcargs.get("webDriver", None)
-        if driver:
-            screenshots_dir = os.path.join(os.getcwd(), "screenshots")
-            os.makedirs(screenshots_dir, exist_ok=True)
-
-            test_name = item.name
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filepath = os.path.join(screenshots_dir, f"{test_name}_{timestamp}.png")
-
-            driver.save_screenshot(filepath)
-            print(f"\nScreenshot saved: {filepath}")
-
-            # Attach screenshot to the html report
-            if hasattr(rep, "extra"):
-                rep.extra.append(extras.image(filepath))
-            else:
-                rep.extra = [extras.image(filepath)]
-'''
 

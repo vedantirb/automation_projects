@@ -27,9 +27,6 @@ jobs:
       - name: Clean up stale Chrome profiles
         run: rm -rf /tmp/selenium* /tmp/profile* /tmp/tmp*
 
-      - name: close chrome session
-        run: killall chrome               # On Linux/macOS
-
       - name: Run tests
         run: |
-          pytest --browser_name chrome --html=./report.html
+          pytest --browser_name chrome --headless --html=./report.html
