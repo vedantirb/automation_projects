@@ -30,10 +30,13 @@ class ShopPage(BrowserUtils):
             cart.click()
 
     def cart_checkout(self):
-        print("🧾 Checking out cart...")
+        print("Checking out cart...")
+        self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
         element = self.driver.find_element(*self.cart_checkout_btn)
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", element)
-        self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
+        # Optional: wait after scroll
+        time.sleep(1)
+
         cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
         cart_btn.click()
         print("Cart checkout clicked.")
