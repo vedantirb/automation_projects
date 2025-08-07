@@ -36,7 +36,8 @@ class ShopPage(BrowserUtils):
         self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", element)
         # Optional: wait after scroll
         time.sleep(1)
-
+        print("Displayed:", element.is_displayed())
+        print("Enabled:", element.is_enabled())
         cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
         cart_btn.click()
         print("Cart checkout clicked.")
