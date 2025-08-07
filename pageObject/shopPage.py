@@ -1,3 +1,6 @@
+import time
+
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -30,3 +33,14 @@ class ShopPage(BrowserUtils):
         cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
         cart_btn.click()
 
+        print("🧾 Checking out cart...")
+        for attempt in range(3):
+            try:
+                self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
+                cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
+                cart_btn.click()
+                print("Cart checkout clicked.")
+                break
+            except TimeoutException:
+                print(f"Attempt {attempt+1}: Cart button not ready. Retrying...")
+                time.sleep(2)
