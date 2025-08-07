@@ -26,6 +26,7 @@ class ShopPage(BrowserUtils):
             cart.click()
 
     def cart_checkout(self):
+        self.wait.until(expected_conditions.presence_of_element_located(self.cart_checkout_btn))
         cart_btn = self.wait.until(expected_conditions.element_to_be_clickable(self.cart_checkout_btn))
         cart_btn.click()
 
