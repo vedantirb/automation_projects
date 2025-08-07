@@ -9,7 +9,7 @@ class ShopPage(BrowserUtils):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
-        self.shop_link = (By.CSS_SELECTOR, "a[href*='shop'")
+        self.shop_link = (By.CSS_SELECTOR, "a[href*='shop']")
         self.cart_checkout_btn = (By.CSS_SELECTOR, "a[class*='nav-link btn']")
         self.wait = WebDriverWait(self.driver, 10)
 
@@ -18,9 +18,6 @@ class ShopPage(BrowserUtils):
 
     def add_product(self, product_name):
         print(self.getTitle())
-        # //h4/a[contains(text(),'Note')] will search item has Note text
-        # //div[@class='card h-100']/div/h4/a[text()='Blackberry'] find blackberry text label anchor tag
-        # //a[contains(text(),'Blackberry')]//ancestor::div[@class='card h-100']/div/button
         cart_btn_xpath = "//a[contains(text(),'" + product_name + "')]//ancestor::div[@class='card h-100']/div/button"
         self.wait.until(expected_conditions.presence_of_element_located((By.XPATH, cart_btn_xpath)))
         products = self.driver.find_elements(By.XPATH, cart_btn_xpath)

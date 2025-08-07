@@ -23,11 +23,12 @@ with open(data_input_file) as input_file:
 @pytest.mark.parametrize("testData", input_data["TestData"])
 def test_end2end(webDriver, testData):
     driver = webDriver
-    #driver.get("https://rahulshettyacademy.com/angularpractice/")
 
     loginPg = LoginPage(driver)
     loginPg.login(testData["username"], testData["password"])
 
+    if "Incorrect" in loginPg.login_message():
+        return None
     shopPg = ShopPage(driver)
     shopPg.shop_link_action()
     shopPg.add_product(testData["product_name"])
@@ -39,17 +40,6 @@ def test_end2end(webDriver, testData):
     purchasePg.confirm_purchase()
     purchasePg.validate_purchase()
 
-    # password_popup = wait.until(expected_conditions.element_to_be_clickable((By.ID, "okayBtn")))
-    # password_popup.click()
-    # wait.until(expected_conditions.alert_is_present())
-    # try:
-    #     alert = driver.switch_to.alert
-    #     print(alert.text)
-    #     alert.accept()
-    # except:
-    #     print("No alert present")
-    #driver.execute_script("document.getElementById('okayBtn').click()")
-    # driver.execute_script("document.querySelector('.modal').remove();")
 
 
 

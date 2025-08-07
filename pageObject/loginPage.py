@@ -12,6 +12,7 @@ class LoginPage(BrowserUtils):
         self.admin = (By.CSS_SELECTOR, "input[value='admin']")
         self.term = (By.XPATH, "//input[@id='terms']")
         self.signIn = (By.XPATH, "//input[@id='signInBtn']")
+        self.alert_label =(By.XPATH, "//div[contains(@class,'alert-danger')]")
 
     def login(self, username, password):
         print(self.getTitle())
@@ -20,5 +21,8 @@ class LoginPage(BrowserUtils):
         self.driver.find_element(*self.admin).click()
         self.driver.find_element(*self.term).click()
         self.driver.find_element(*self.signIn).click()
+
+    def login_message(self):
+        return self.driver.find_element(*self.alert_label).text
 
 
